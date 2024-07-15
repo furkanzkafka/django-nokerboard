@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <span>Our Services<br></span>
+            <h2>Our ServiceS</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+            <div class="row gy-4">
+                {% if companies %}
+                    {% for company in companies %}
+                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card">
+                                <div class="card-img">
+                                    <img src="{{ company.logo.url }}" alt="" class="img-fluid">
+                                </div>
+                                <h3><a href="{% url 'company' company.id %}">{{ company.title }}</a></h3>
+                                <p>{{ company.description }}</p>
+                            </div>
+                        </div><!-- End Card Item -->
+                    {% endfor %}
+                {% else %}
+                    No listing
+                {% endif %}
+
+                <nav aria-label="Page navigation example">
+                    {% if companies.has_other_pages %}
+                    <ul class="pagination">
+                        {% if companies.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ companies.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for i in companies.paginator.page_range %}
+                                {% if companies.number == i %}
+                                    <li class="class active">
+                                        <a class="page-link">{{ i }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
